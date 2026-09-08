@@ -1,15 +1,33 @@
-const form=document.getElementById('partnerForm');
-form.addEventListener('submit',e=>{
-  e.preventDefault();
-  const d=new FormData(form);
-  const subject=encodeURIComponent(`Sponsor Mohawk Partnership Inquiry — ${d.get('interest')}`);
-  const body=encodeURIComponent(`Name: ${d.get('name')}\nCompany: ${d.get('company')}\nEmail: ${d.get('email')}\nPhone: ${d.get('phone')}\nInterest: ${d.get('interest')}\n\nMessage:\n${d.get('message')}`);
-  document.getElementById('formNote').textContent='Opening Gmail...';
-  const gmailUrl =
-  `https://mail.google.com/mail/?view=cm&fs=1` +
-  `&to=${encodeURIComponent('derekduzan@gmail.com')}` +
-  `&su=${subject}` +
-  `&body=${body}`;
+const form = document.getElementById('partnerForm');
 
-window.open(gmailUrl, '_blank');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const d = new FormData(form);
+
+  const subject = `Sponsor Mohawk Partnership Inquiry — ${d.get('interest') || ''}`;
+
+  const body = `Name: ${d.get('name') || ''}
+Company: ${d.get('company') || ''}
+Email: ${d.get('email') || ''}
+Phone: ${d.get('phone') || ''}
+Interest: ${d.get('interest') || ''}
+
+Message:
+${d.get('message') || ''}`;
+
+  const params = new URLSearchParams({
+    view: 'cm',
+    fs: '1',
+    to: 'derekduzan@gmail.com',
+    su: subject,
+    body: body
+  });
+
+  document.getElementById('formNote').textContent = 'Opening Gmail...';
+
+  window.open(
+    `https://mail.google.com/mail/?${params.toString()}`,
+    '_blank'
+  );
 });
