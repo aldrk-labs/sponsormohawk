@@ -3,6 +3,15 @@ const formNote = document.getElementById('formNote');
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-NWAUyeFeJUi6gvFO1UiZpcBOOGo_jcoykXbTeYEvz0O69uZH0DQFts9SKbd3x40T/exec';
 
+const startedAt = Date.now();
+document.getElementById('formStartedAt').value = String(startedAt);
+
+const token =
+  crypto.randomUUID?.() ||
+  `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+document.getElementById('formToken').value = token;
+
 form.addEventListener('submit', async function (e) {
   e.preventDefault();
 
@@ -16,7 +25,6 @@ form.addEventListener('submit', async function (e) {
 
   submitButton.disabled = true;
   submitButton.textContent = 'Sending...';
-
   formNote.textContent = 'Sending your inquiry...';
 
   const formData = new FormData(form);
@@ -38,7 +46,12 @@ form.addEventListener('submit', async function (e) {
     setTimeout(() => {
       submitButton.disabled = false;
       submitButton.textContent = originalText;
-    }, 3000);
+
+      document.getElementById('formStartedAt').value = String(Date.now());
+      document.getElementById('formToken').value =
+        crypto.randomUUID?.() ||
+        `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    }, 2500);
 
   } catch (error) {
     console.error(error);
