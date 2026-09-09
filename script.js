@@ -1,33 +1,52 @@
 const form = document.getElementById('partnerForm');
+const formNote = document.getElementById('formNote');
 
-form.addEventListener('submit', e => {
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-NWAUyeFeJUi6gvFO1UiZpcBOOGo_jcoykXbTeYEvz0O69uZH0DQFts9SKbd3x40T/exec';
+
+form.addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const d = new FormData(form);
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
 
-  const subject = `Sponsor Mohawk Partnership Inquiry — ${d.get('interest') || ''}`;
+  const submitButton = form.querySelector('[type="submit"]');
+  const originalText = submitButton.textContent;
 
-  const body = `Name: ${d.get('name') || ''}
-Company: ${d.get('company') || ''}
-Email: ${d.get('email') || ''}
-Phone: ${d.get('phone') || ''}
-Interest: ${d.get('interest') || ''}
+  submitButton.disabled = true;
+  submitButton.textContent = 'Sending...';
 
-Message:
-${d.get('message') || ''}`;
+  formNote.textContent = 'Sending your inquiry...';
 
-  const params = new URLSearchParams({
-    view: 'cm',
-    fs: '1',
-    to: 'derekduzan@gmail.com',
-    su: subject,
-    body: body
-  });
+  const formData = new FormData(form);
 
-  document.getElementById('formNote').textContent = 'Opening Gmail...';
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors'
+    });
 
-  window.open(
-    `https://mail.google.com/mail/?${params.toString()}`,
-    '_blank'
-  );
+    form.reset();
+
+    formNote.textContent =
+      'Thanks — your inquiry has been sent to Team Mohawk. We’ll be in touch.';
+
+    submitButton.textContent = 'Sent';
+
+    setTimeout(() => {
+      submitButton.disabled = false;
+      submitButton.textContent = originalText;
+    }, 3000);
+
+  } catch (error) {
+    console.error(error);
+
+    formNote.textContent =
+      'Something went wrong. Please try again.';
+
+    submitButton.disabled = false;
+    submitButton.textContent = originalText;
+  }
 });
