@@ -3,7 +3,7 @@
   'use strict';
 
   const CONFIG = {
-    endpoint: 'PASTE_YOUR_SPONSORMOHAWK_APPS_SCRIPT_EXEC_URL_HERE',
+    endpoint: 'https://script.google.com/macros/s/AKfycbx-NWAUyeFeJUi6gvFO1UiZpcBOOGo_jcoykXbTeYEvz0O69uZH0DQFts9SKbd3x40T/exec',
     siteId: 'sponsormohawk',
     geoLookupUrl: 'https://ipapi.co/json/',
     threatLookupBase: 'https://api.ipapi.is/?q=',
