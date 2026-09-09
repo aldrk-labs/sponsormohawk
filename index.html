@@ -135,6 +135,19 @@
     <h2>READY TO PARTNER<br>WITH <em>MOHAWK?</em></h2>
     <p>Put your brand alongside a world champion and become part of the next chapter.</p>
     <form id="partnerForm">
+      <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+        <label for="website">Website</label>
+         <input
+          type="text"
+          id="website"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+        >
+      </div>
+
+      <input type="hidden" name="form_started_at" id="formStartedAt">
+      <input type="hidden" name="form_token" id="formToken">
       <input required name="name" placeholder="Name">
       <input required name="company" placeholder="Company">
       <input required type="email" name="email" placeholder="Email">
